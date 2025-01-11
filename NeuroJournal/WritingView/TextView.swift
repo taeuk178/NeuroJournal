@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 struct TextView: UIViewRepresentable {
-    @Binding var text: String
+//    @Binding var text: String
+    @Binding var item: Item
     var placeholder: String
     
     func makeUIView(context: Context) -> UITextView {
@@ -22,11 +23,11 @@ struct TextView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
-        if uiView.text == placeholder && text.isEmpty {
+        if uiView.text == placeholder && item.text.isEmpty {
             uiView.text = placeholder
             uiView.textColor = .lightGray
         } else {
-            uiView.text = text
+            uiView.text = item.text
             uiView.textColor = .black
         }
     }
@@ -57,7 +58,7 @@ struct TextView: UIViewRepresentable {
         }
         
         func textViewDidChange(_ textView: UITextView) {
-            parent.text = textView.text
+            parent.item.text = textView.text
         }
     }
 }
