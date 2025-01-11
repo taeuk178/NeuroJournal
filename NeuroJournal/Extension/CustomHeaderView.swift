@@ -33,7 +33,6 @@ struct CustomHeaderView: View {
             
             if isExpandable {
                 WritingView(item: $item)
-//                Text("1")
             } else {
                 
             }

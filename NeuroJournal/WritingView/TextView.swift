@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct TextView: UIViewRepresentable {
-//    @Binding var text: String
     @Binding var item: Item
     var placeholder: String
     
