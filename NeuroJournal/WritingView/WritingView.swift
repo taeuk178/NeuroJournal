@@ -10,7 +10,7 @@ import SwiftData
 
 struct WritingView: View {
     @State var text: String = ""
-//    @Binding var item: Item? // 기존 Item을 바인딩
+    @Binding var item: Item?
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
@@ -47,24 +47,24 @@ struct WritingView: View {
             UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             
-//            if let item {
-//                text = item.text
-//            }
+            if let item {
+                text = item.text
+            }
         }
     }
     
     func saveData() {
         guard !text.isEmpty else { return } // 텍스트가 비어있으면 저장하지 않음
         
-//        if let item {
-//            item.text = text
-//        } else {
-//            let newItem = Item(text: text, timestamp: Date())
-//            modelContext.insert(newItem) // SwiftData에 저장
-//        }
+        if let item {
+            item.text = text
+        } else {
+            let newItem = Item(text: text, timestamp: Date())
+            modelContext.insert(newItem) // SwiftData에 저장
+        }
     }
 }
 
 #Preview {
-    WritingView()
+    WritingView(item: .constant(Item(text: "예시", timestamp: Date())))
 }

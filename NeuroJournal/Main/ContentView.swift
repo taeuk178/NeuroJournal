@@ -12,30 +12,40 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var items: [Item]
     
-    let sampleItems = [
-        "1994/02/24",
-        "2025/01/11",
-        "Cherry",
-        "Date",
-        "Elderberry"
-    ]
-    
+    // TextView 띄우기
     @State private var showModal: Bool = false
+    
+    // 선택된 Item
+    @State private var selectedItem: Item? = nil
     
     var body: some View {
         NavigationView {
             ZStack(alignment: .center) {
-                List(items, id: \.self) { item in
-                    Text(item.text)
-                        .font(.headline)
+                List {
+                    ForEach(items) { item in
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(item.text)
+                                .font(.headline)
+                            Text(item.timestamp, style: .date)
+                                .font(.subheadline)
+                                .foregroundStyle(.gray)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onTapGesture {
+                            selectedItem = item
+                            showModal.toggle()
+                        }
+                    }
                 }
                 .navigationTitle("일기")
+
                 
                 VStack {
                     Spacer() // 상단 공간을 차지
                     HStack {
                         Spacer() // 우측 공간을 차지
                         Button(action: {
+                            selectedItem = nil
                             showModal.toggle()
                         }) {
                             Image(systemName: "plus.circle.fill")
@@ -47,7 +57,7 @@ struct ContentView: View {
                         .padding(.bottom, 10)
                         .padding(.trailing, 10)
                         .sheet(isPresented: $showModal) {
-                            WritingView()
+                            WritingView(item: $selectedItem)
                         }
                     }
                 }
